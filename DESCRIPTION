@@ -21,5 +21,10 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
 SystemRequirements: pandoc, Rtools (for Windows users)
 Imports:
+    cranlogs,
+    dplyr,
+    fishualize,
     fontawesome,
+    ggplot2,
+    targets,
     xaringan
