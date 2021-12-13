@@ -3,7 +3,7 @@
   <head>
     <title>Reproducible workflow with targets</title>
     <meta charset="utf-8" />
-    <meta name="author" content="François Guilhaumon, Nina M. D. Schiettekatte" />
+    <meta name="author" content="François Guilhaumon &amp; Nina M. D. Schiettekatte" />
     <meta name="date" content="2021-12-13" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link rel="stylesheet" href="css/xaringan-themer.css" type="text/css" />
@@ -12,8 +12,8 @@
     <textarea id="source">
 class: center, middle, inverse, title-slide
 
-# Reproducible workflow with targets
-### François Guilhaumon, Nina M. D. Schiettekatte
+# Reproducible workflow with<br /><code>targets</code>
+### François Guilhaumon &amp; Nina M. D. Schiettekatte
 ### 2021-12-13
 
 ---
@@ -67,7 +67,7 @@ class: inverse, center, middle
 
 - Big data efficiency
 
-- Readibility and transparancy
+- Readability and transparency
 ]
 
 
@@ -80,6 +80,7 @@ class: inverse, center, middle
 
 ```r
 mydata     &lt;- read.csv("mydata.csv")
+
 data2      &lt;- clean(mydata)
 data3      &lt;- transform(data2)
 data4      &lt;- erase_na(data3)
@@ -88,7 +89,8 @@ data_clean &lt;- transform(data_4)
 
 
 ```r
-mydata &lt;- read.csv("mydata.csv")
+mydata  &lt;- read.csv("mydata.csv")
+
 wrangle &lt;- function(data){
   data2      &lt;- clean(data)
   data3      &lt;- transform(data2)
@@ -96,6 +98,7 @@ wrangle &lt;- function(data){
   data_clean &lt;- transform(data_4)
   return(data_clean)
 }
+
 data_clean &lt;- wrangle(mydata)
 ```
 
@@ -109,11 +112,11 @@ class: inverse, center, middle
 ---
 # Targets
 
-In targets, a data analysis pipeline is a collection of target objects that express the individual steps of the workflow
+In **targets**, a data analysis pipeline is a collection of target objects that express the individual steps of the workflow
 
 - a target is a step of your pipeline (can also be an input file or an Rmd report)
 
-- each target is defined using the function 'tar_target', providing the name of the target as first argument and the function to create it as a second argument, there is a third optional argument to specify the 'type' of the target
+- each target is defined using the function `tar_target()`, providing the name of the target as first argument and the function to create it as a second argument, there is a third optional argument to specify the 'type' of the target
 
 - dependencies between targets are exposed because upstream targets are arguments of the functions used to build downstream targets
 
@@ -122,17 +125,17 @@ In targets, a data analysis pipeline is a collection of target objects that expr
 ---
 # Key functions
 
--  tar_target(): create a target
+-  `tar_target()`: create a target
 
--  tar_make(): run the pipeline
+-  `tar_make()`: run the pipeline
 
--  tar_load(): load one built target into your R session (tar_load(a_target))
+-  `tar_load()`: load one built target into your R session &lt;br /&gt;e.g. `tar_load(a_target)`
 
--  tar_read(): read and return a built target (a &lt;- tar_read(a_target))
+-  `tar_read()`: read and return a built target &lt;br /&gt;e.g. `a &lt;- tar_read(a_target)`
 
--  tar_glimpse(): show targets inter-dependencies
+-  `tar_glimpse()`: show targets inter-dependencies
 
--  tar_visnetwork(): show a complete visual network representation of your workflow
+-  `tar_visnetwork()`: show a complete visual network representation of your workflow
 
 
 ---
@@ -143,37 +146,44 @@ The pipeline is written in a special `_targets.R` file located at the root of yo
 
 
 ```r
-# _targets.R file
+## Content of '_targets.R' file
 library(targets)
-source("R/functions.R")
+source(here::here("R", "functions.R"))
 
 list(
-  tar_target(raw_data_file, "data/raw_data.csv", format = "file"
-  ), #make the workflow depends on the raw data file
-  tar_target(raw_data, read_csv(raw_data_file)
-  ), #read the data, return a data.frame
-  tar_target(data,
-    raw_data %&gt;% filter(!is.na(Ozone))
-  ), #transform the data
-  tar_target(hist, create_plot(data)), #explore the data (custom function)
-  tar_target(fit, lm(Ozone ~ Wind + Temp, data)) #model the data
-)
+  # Make the workflow depends on the raw data file
+  tar_target(raw_data_file, here::here("data", "raw_data.csv"), 
+             format = "file"), 
+  
+  # Read the data and return a data.frame
+  tar_target(raw_data, read_csv(raw_data_file)),
+  
+  # Transform the data
+  tar_target(data, raw_data %&gt;% filter(!is.na(Ozone))),
+  
+  # Explore the data (custom function)
+  tar_target(hist, create_plot(data)), 
+  
+  # Model the data
+  tar_target(fit, lm(Ozone ~ Wind + Temp, data)))
 ```
 
 ---
 # Visualizing the pipeline
 
-![](img/tar_glimpse_1.png)
+.center[![](img/tar_glimpse_1.png)]
 
 
 ---
 # Creating the pipeline
 
-All target script files have these requirements.
+All target script files have these requirements:
 
 1. Load the [`targets`](https://github.com/ropensci/targets) package itself.  
-1. Load your custom functions and global objects into the R session :`source("R/functions.R")`.  
-1. Define individual targets with the `tar_target()` function. Each target is an intermediate step of the workflow. At minimum, a target must have a name and an R expression.  
+1. Load your custom functions and global objects into the R session: `source(here::here("R", "functions.R"))`.  
+1. Define individual targets with the `tar_target()` function. 
+Each target is an intermediate step of the workflow. 
+At minimum, a target must have a **name** and an **R expression**.  
 1. Every target script must end with a list of your `tar_target()` objects.
 
 ---
@@ -182,25 +192,30 @@ All target script files have these requirements.
 Targets (when they success to run) are all stored in `_targets/objects`, this allow their examination and sharing outside of the project.
 
 That's very cool !
+
 ---
 # Example long project
-![](img/tar_glimpse.png)
+
+.center[![](img/tar_glimpse.png)]
+
+
 ---
 # Workflow
 
-1) Write a function
+1) Write an R function
 
 2) Add a target to the pipeline
 
-3) visualize the pipelie
+3) Visualize the pipeline
 
 4) Make the pipeline
 
 5) Check the results
 
 6) Write a function
+
 ...
-...
+
 ---
 # Example: analysis R package downloads
 
@@ -227,22 +242,22 @@ head(crandata)
 
 
 ```r
-# R/my_functions.R
+## Content of R/my_functions.R
 
-# packages
+# List of required packages
 library(ggplot2)
 library(targets)
 library(dplyr)
 library(cranlogs)
 
-# functions
-make_my_table &lt;- function(downloads){
+# Function 1
+make_my_table &lt;- function(downloads) {
   group_by(downloads, package) %&gt;%
     summarize(mean_downloads = mean(count))
 }
 
-
-make_my_plot &lt;- function(downloads){
+# Function 2
+make_my_plot &lt;- function(downloads) {
   ggplot(downloads) +
     geom_line(aes(x = date, y = count, group = package,
                   color = package))
@@ -255,24 +270,26 @@ make_my_plot &lt;- function(downloads){
 
 ```r
 library(targets)
-source("R/my_functions.R")
+source(here::here("R", "my_functions.R"))
+
 list(
-  # load data
+  # Load data
   tar_target(crandata_new, cran_downloads(
     packages = c("dplyr", "ggplot2", "purrr", "tidyr", "stringr"),
-    from = "2019-11-01", to = "2019-12-01")),
+    from     = "2019-11-01", to = "2019-12-01")),
   tar_target(crandata_new, cran_downloads(
     packages = c("dplyr", "ggplot2", "purrr", "tidyr", "stringr"),
-    from = "2016-11-01", to = "2016-12-01")),
-  # make tables
+    from     = "2016-11-01", to = "2016-12-01")),
+  # Make tables
   tar_target(averages_new, make_my_table(crandata_new)),
   tar_target(averages_old, make_my_table(crandata_old)),
-  # make plots
+  # Make plots
   tar_target(plot_new, make_my_plot(crandata_new)),
   tar_target(plot_old, make_my_plot(crandata_old)),
-  # combine
-  tar_target(averages_combined, left_join(averages_old, averages_new, by = "package"))
-)
+  # Combine tables
+  tar_target(averages_combined, left_join(averages_old, 
+                                          averages_new, 
+                                          by = "package")))
 ```
 ---
 ## Make the pipeline
@@ -359,7 +376,7 @@ tar_read(plot_old)
 ---
 # External input files
 
-To reproducibly track an external input file, you need to define a new target that has
+To reproducibly track an external input file, you need to define a new target that has:
 
 1. A command that returns the file path as a character vector, and 
 2. `format = "file"` in `tar_target()`.
@@ -376,13 +393,10 @@ library(targets)
 path_to_data &lt;- function() {
   "data/raw_data.csv"
 }
+
 list(
-  tar_target(
-    raw_data_file, path_to_data(), format = "file"
-  ),
-  tar_target(raw_data, read_csv(raw_data_file, col_types = cols())
-  )
-)
+  tar_target(raw_data_file, path_to_data(), format = "file"),
+  tar_target(raw_data, read_csv(raw_data_file, col_types = cols())))
 ```
 
 ---
@@ -402,8 +416,9 @@ Here, our custom `save_plot_and_return_path()` function does exactly what the na
 save_plot_and_return_path &lt;- function() {
   plot &lt;- ggplot(mtcars) +
     geom_point(aes(x = wt, y = mpg))
-  ggsave("outputs/plot_file.png", plot, width = 7, height = 7)
-  return("outputs/plot_file.png")
+  ggsave(here::here("outputs", "plot_file.png"), plot, 
+         width = 7, height = 7)
+  return(here::here("outputs", "plot_file.png"))
 }
 ```
 
@@ -442,24 +457,17 @@ library(targets)
 library(tarchetypes)
 source("R/functions.R")
 list(
-  tar_target(
-    raw_data_file,
-    "data/raw_data.csv",
-    format = "file"
-  ),
-  tar_target(
-    raw_data,
-    read_csv(raw_data_file, col_types = cols())
-  ),
-  tar_target(
-    data,
-    raw_data %&gt;%
-      mutate(Ozone = replace_na(Ozone, mean(Ozone, na.rm = TRUE)))
-  ),
+  tar_target(raw_data_file, here::here("data", "raw_data.csv"),
+    format = "file"),
+  tar_target(raw_data,
+    read_csv(raw_data_file, col_types = cols())),
+  tar_target(data, raw_data %&gt;%
+    mutate(Ozone = replace_na(Ozone, mean(Ozone, na.rm = TRUE)))),
   tar_target(hist, create_plot(data)),
   tar_target(fit, biglm(Ozone ~ Wind + Temp, data)),
-  tar_render(report, "report.Rmd") # Here is our call to tar_render().
-)
+  
+  # Here is our call to tar_render()
+  tar_render(report, "report.Rmd"))
 ```
 
 ---
@@ -488,6 +496,7 @@ class: inverse, center, middle
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="libs/macros.js"></script>
 <script>var slideshow = remark.create({
 "highlightLines": true,
 "countIncrementalSlides": false
