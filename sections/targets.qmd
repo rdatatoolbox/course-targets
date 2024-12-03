@@ -709,6 +709,7 @@ As always, `tar_make()` will run the pipeline and compile the report.
 
 ::::
 
+## Targets
 
-
+![](images/Sisyphe_lol_cut.jpg){.r-stretch fig-align="center"}
 
