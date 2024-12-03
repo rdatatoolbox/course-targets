@@ -13,6 +13,7 @@ format:
 engine: knitr
 execute: 
   echo: true
+embed-resources: false
 ---
 
 <!-- Insert section 'Title slide' -->

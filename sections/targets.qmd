@@ -407,7 +407,7 @@ targets::tar_make()
 6) Write a function
 
 
-## Targets workflow
+## Targets workflow {auto-animate=true}
 
 #### Workflow
 
@@ -423,8 +423,43 @@ targets::tar_make()
 
 6) Write a function
 
-![](images/François_Tomb_Carlo_Ruspi_02.jpg){width="60%" .absolute bottom="100" right="10"}
+![](images/Sisyphe_lol.jpg){width="60%" .absolute bottom="100" right="10"}
 
+## Targets workflow {auto-animate=true}
+
+#### Workflow
+
+1) Write an R function
+
+2) Add a target to the pipeline
+
+3) Visualize the pipeline
+
+4) Make the pipeline
+
+5) Check the results
+
+6) Write a function
+
+![](images/Sisyphe_lol_cut.jpg){width="20%" .absolute bottom="50" right="10"}
+
+## Targets workflow {auto-animate=true}
+
+#### Workflow
+
+1) Write an R function
+
+2) Add a target to the pipeline
+
+3) Visualize the pipeline
+
+4) Make the pipeline
+
+5) Check the results
+
+6) Write a function
+
+![](images/Sisyphe_lol_cut.jpg){width="20%" .absolute bottom="700" right="300"}
 
 # Input / Output Files
 
