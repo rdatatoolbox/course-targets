@@ -2,11 +2,11 @@
 
 ## 
 
-![](../images/tweet.png){fig-align="center"}
+![](images/tweet.png){fig-align="center"}
 
 ## {auto-animate=true}
 
-![](../images/François_Tomb_Carlo_Ruspi_02.jpg){fig-align="center" width="80%"}
+![](images/François_Tomb_Carlo_Ruspi_02.jpg){fig-align="center" width="80%"}
 
 ## {auto-animate=true}
 
@@ -16,7 +16,7 @@
 
 <br> <br>
 
-![](../images/François_Tomb_Carlo_Ruspi_02.jpg){fig-align="center" width="80%"}
+![](images/François_Tomb_Carlo_Ruspi_02.jpg){fig-align="center" width="80%"}
 
 :::
 
@@ -51,7 +51,7 @@ This organization has several advantages:
 
 > -   it optimizes calculation times, because in the event of modification, only those steps that require it are restarted
 
-![](../images/logo-targets.svg){fig-align="center" width="20%"}
+![](images/logo-targets.svg){fig-align="center" width="20%"}
 
 
 # How does it work?
@@ -264,7 +264,7 @@ targets::tar_visnetwork()
 ```
 
 
-![](../images/targets-tar_vis_2.png){fig-align="center"}
+![](images/targets-tar_vis_2.png){fig-align="center"}
 
 ## Retrieving the results (the targets)
 
@@ -283,7 +283,7 @@ plot(hist)
 
 ```
 
-![](../images/hist_Ozone.png){fig-align="center" width="50%"}
+![](images/hist_Ozone.png){fig-align="center" width="50%"}
 
 ## Retrieving the results (the targets)
 
@@ -302,7 +302,7 @@ plot(histo)
 
 ```
 
-![](../images/hist_Ozone.png){fig-align="center" width="50%"}
+![](images/hist_Ozone.png){fig-align="center" width="50%"}
 
 # Targets loves changes
 
@@ -371,7 +371,7 @@ targets::tar_visnetwork()
 
 ```
 
-![](../images/targets-tar_vis_3.png){fig-align="center" width="70%"}
+![](images/targets-tar_vis_3.png){fig-align="center" width="70%"}
 
 
 ## Changing the pipeline
@@ -423,7 +423,7 @@ targets::tar_make()
 
 6) Write a function
 
-![](../images/François_Tomb_Carlo_Ruspi_02.jpg){width="60%" .absolute bottom="100" right="10"}
+![](images/François_Tomb_Carlo_Ruspi_02.jpg){width="60%" .absolute bottom="100" right="10"}
 
 
 # Input / Output Files
